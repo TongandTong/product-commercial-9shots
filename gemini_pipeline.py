@@ -308,8 +308,16 @@ def generate_storyboard_with_gemini(
         contents.append(types.Part.from_bytes(data=image_bytes, mime_type=image_mime))
     contents.append(prompt)
 
-    # Try Gemini 2.5 Flash, fallback to 2.0 Flash or 1.5 Flash
-    models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+    # Prioritize available models with graceful fallback for temporary 503 load
+    models_to_try = [
+        "gemini-3.8-flash",
+        "gemini-3.7-flash",
+        "gemini-3.6-flash",
+        "gemini-3.5-flash",
+        "gemini-flash-latest",
+        "gemini-3.1-pro-preview",
+        "gemini-pro-latest"
+    ]
     last_error = None
     
     for model_name in models_to_try:
@@ -323,13 +331,22 @@ def generate_storyboard_with_gemini(
                     temperature=0.7,
                 )
             )
-            raw_text = response.text
+            raw_text = (response.text or "").strip()
+            if raw_text.startswith("```json"):
+                raw_text = raw_text[7:]
+            if raw_text.startswith("```"):
+                raw_text = raw_text[3:]
+            if raw_text.endswith("```"):
+                raw_text = raw_text[:-3]
+            raw_text = raw_text.strip()
+
             # Parse JSON
             data = json.loads(raw_text)
             if "shots" in data and len(data["shots"]) >= 9:
                 return data
         except Exception as e:
             last_error = e
+            print(f"Model {model_name} failed: {e}")
             continue
 
     print(f"Gemini API generation failed with {last_error}, falling back to template.")
