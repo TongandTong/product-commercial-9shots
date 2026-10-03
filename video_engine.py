@@ -474,6 +474,144 @@ def render_single_shot_video(
     return output_video_path
 
 
+def create_subtitle_overlay_png(
+    shot_data: Dict[str, Any],
+    output_png_path: str,
+    width: int = 720,
+    height: int = 1280
+) -> str:
+    """Create a transparent 720x1280 PNG containing top shot badge and bottom subtitle banner."""
+    overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    font_badge = get_thai_font(20, bold=True)
+    font_headline = get_thai_font(34, bold=True)
+    font_script = get_thai_font(24, bold=False)
+
+    # Top Shot Badge
+    shot_num = shot_data.get("shot_number", 1)
+    role = shot_data.get("role", f"Shot {shot_num}").upper()
+    badge_text = f"🎬 SHOT {shot_num} • {role}"
+
+    badge_w, badge_h = 340, 46
+    badge_x = (width - badge_w) // 2
+    badge_y = 50
+    draw.rounded_rectangle(
+        [badge_x, badge_y, badge_x + badge_w, badge_y + badge_h],
+        radius=23,
+        fill=(15, 20, 32, 210),
+        outline=(255, 75, 75, 200),
+        width=2
+    )
+    draw.text((badge_x + 22, badge_y + 11), badge_text, font=font_badge, fill=(255, 255, 255))
+
+    # Bottom Subtitle Card
+    sub_w = 660
+    sub_h = 240
+    sub_x = (width - sub_w) // 2
+    sub_y = height - sub_h - 60
+
+    draw.rounded_rectangle(
+        [sub_x, sub_y, sub_x + sub_w, sub_y + sub_h],
+        radius=24,
+        fill=(12, 16, 26, 210),
+        outline=(255, 255, 255, 60),
+        width=2
+    )
+
+    # Accent line
+    draw.rounded_rectangle(
+        [sub_x + 18, sub_y + 20, sub_x + 26, sub_y + sub_h - 20],
+        radius=4,
+        fill=(255, 75, 75)
+    )
+
+    headline = shot_data.get("headline") or shot_data.get("title", f"ช็อตที่ {shot_num}")
+    draw.text((sub_x + 44, sub_y + 22), headline, font=font_headline, fill=(255, 255, 255))
+
+    voiceover = shot_data.get("thai_voiceover", "")
+    lines = wrap_text(voiceover, max_chars=34)
+    line_y = sub_y + 76
+    for line in lines:
+        draw.text((sub_x + 44, line_y), line, font=font_script, fill=(225, 230, 240))
+        line_y += 34
+
+    overlay.save(output_png_path, format="PNG")
+    return output_png_path
+
+
+def normalize_i2v_clip_with_audio(
+    raw_video_path: str,
+    audio_path: str,
+    shot_data: Dict[str, Any],
+    output_clip_path: str,
+    overlay_subtitles: bool = True,
+    width: int = 720,
+    height: int = 1280,
+    fps: int = 30,
+    ffmpeg_exe: Optional[str] = None
+) -> str:
+    """
+    Take a raw I2V moving .mp4 video clip, resize to 720x1280 vertical, attach TTS audio,
+    optionally render a sleek subtitle banner overlay, and trim to match speech duration.
+    """
+    exe = ffmpeg_exe or get_ffmpeg_exe()
+    os.makedirs(os.path.dirname(os.path.abspath(output_clip_path)), exist_ok=True)
+
+    # Audio duration
+    audio_dur = get_media_duration(audio_path, exe)
+    final_dur = max(float(shot_data.get("duration_seconds", 3.0)), audio_dur + 0.25)
+
+    temp_overlay_path = output_clip_path.replace(".mp4", "_overlay.png")
+    
+    if overlay_subtitles:
+        create_subtitle_overlay_png(shot_data, temp_overlay_path, width, height)
+        filter_str = f"[0:v]scale={width}:{height}:force_original_aspect_ratio=increase,crop={width}:{height}[bg]; [bg][2:v]overlay=0:0[v]"
+        cmd = [
+            exe,
+            "-stream_loop", "-1", "-i", raw_video_path,
+            "-i", audio_path,
+            "-i", temp_overlay_path,
+            "-filter_complex", filter_str,
+            "-map", "[v]",
+            "-map", "1:a",
+            "-t", f"{final_dur:.2f}",
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-r", str(fps),
+            "-c:a", "aac",
+            "-b:a", "128k",
+            "-shortest",
+            "-y", output_clip_path
+        ]
+    else:
+        filter_str = f"scale={width}:{height}:force_original_aspect_ratio=increase,crop={width}:{height}"
+        cmd = [
+            exe,
+            "-stream_loop", "-1", "-i", raw_video_path,
+            "-i", audio_path,
+            "-vf", filter_str,
+            "-t", f"{final_dur:.2f}",
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-r", str(fps),
+            "-c:a", "aac",
+            "-b:a", "128k",
+            "-shortest",
+            "-y", output_clip_path
+        ]
+
+    res = subprocess.run(cmd, capture_output=True, text=True)
+    if res.returncode != 0:
+        print(f"normalize_i2v_clip error: {res.stderr}")
+
+    if os.path.exists(temp_overlay_path):
+        try: os.remove(temp_overlay_path)
+        except: pass
+
+    return output_clip_path
+
+
 def assemble_9shot_commercial(
     shot_video_paths: List[str],
     bgm_name: str,
