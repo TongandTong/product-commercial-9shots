@@ -86,14 +86,14 @@ if "uploaded_image_pil" not in st.session_state:
 
 # --- Sidebar Settings ---
 with st.sidebar:
-    st.image("https://img.icons8.com/clouds/200/clapperboard.png", width=90)
-    st.title("⚙️ ตั้งค่าระบบ")
+    st.title("🎬 ตั้งค่าระบบ")
 
     # API Key Configuration
     st.subheader("🔑 Google Gemini API")
     secret_key = None
     try:
-        secret_key = st.secrets.get("GEMINI_API_KEY", "")
+        if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]:
+            secret_key = st.secrets["GEMINI_API_KEY"]
     except Exception:
         pass
 
