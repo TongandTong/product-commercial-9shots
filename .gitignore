@@ -1,0 +1,19 @@
+# Python cache & virtual environment
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Streamlit secrets (Do not commit real API keys)
+.streamlit/secrets.toml
+
+# Generated media & temporary files
+temp/
+output/
+*.mp4
+*.mp3
+*.wav
+*.png
+!assets/fonts/*.ttf
+!assets/bgm/*.mp3
