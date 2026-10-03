@@ -94,6 +94,11 @@ with col_left:
     )
 
     if uploaded_file is not None:
+        file_id = f"{uploaded_file.name}_{uploaded_file.size}"
+        if st.session_state.get("current_file_id") != file_id:
+            st.session_state.current_file_id = file_id
+            st.session_state.storyboard_image_path = None
+            st.session_state.storyboard_data = None
         image_bytes = uploaded_file.getvalue()
         image_mime = uploaded_file.type
         prod_pil = Image.open(io.BytesIO(image_bytes))
@@ -105,18 +110,18 @@ with col_left:
         st.info("👈 กรุณาแนบรูปภาพสินค้า เพื่อให้ระบบวิเคราะห์และสร้าง Storyboard 9 ช่อง")
 
 with col_right:
-    st.markdown("### ⚙️ 2. ข้อมูลสินค้าและสไตล์")
+    st.markdown("### ⚙️ 2. ข้อมูลสินค้าและสไตล์ (ไม่ระบุก็ได้ AI สแกนให้)")
     
     product_name = st.text_input(
         "ชื่อสินค้า (Product Name):",
-        value="Gluta Glow White Serum",
-        placeholder="เช่น เซรั่มหน้าใส Gluta Glow (หากไม่ระบุ Gemini จะช่วยตั้งชื่อให้)"
+        value="",
+        placeholder="เช่น iPhone 18 Pro Max หรือ เซรั่มหน้าใส (เว้นว่างไว้ให้ AI สแกนจากภาพเองได้)"
     )
 
     highlights = st.text_area(
         "จุดเด่นที่ต้องการเน้น (Key Highlights):",
-        value="ผิวกระจ่างใสใน 7 วัน, ซึมไว ไม่เหนียวเหนอะหนะ, สารสกัดพรีเมียมจากญี่ปุ่น",
-        placeholder="ระบุสรรพคุณ ส่วนผสม หรือฟังก์ชันหลัก",
+        value="",
+        placeholder="เช่น ชิปแรง กล้อง 4K หรือ บำรุงผิวล้ำลึก (เว้นว่างไว้ให้ AI ดึงจุดเด่นให้อัตโนมัติ)",
         height=75
     )
 
@@ -131,7 +136,7 @@ with col_right:
     with col_dur:
         mood_tone = st.text_input(
             "Mood & Tone:",
-            value="พรีเมียม หรูหรา น่าเชื่อถือ"
+            value="พรีเมียม สดใส น่าตื่นเต้น"
         )
 
     # API Key override if not in secrets

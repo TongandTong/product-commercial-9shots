@@ -46,139 +46,116 @@ def draw_star(draw: ImageDraw.ImageDraw, cx: float, cy: float, r_outer: float = 
     draw.polygon(points, fill=fill)
 
 
-def render_scene_illustration(
+def make_clean_transparent(img: Image.Image) -> Image.Image:
+    """Removes harsh solid white background from uploaded product packshots if detected."""
+    rgba = img.convert("RGBA")
+    w, h = rgba.size
+    corners = [
+        rgba.getpixel((0, 0)),
+        rgba.getpixel((w - 1, 0)),
+        rgba.getpixel((0, h - 1)),
+        rgba.getpixel((w - 1, h - 1))
+    ]
+    is_white_corner = any(c[0] > 235 and c[1] > 235 and c[2] > 235 for c in corners)
+    if is_white_corner:
+        data = rgba.getdata()
+        new_data = []
+        for item in data:
+            if item[0] > 238 and item[1] > 238 and item[2] > 238:
+                new_data.append((255, 255, 255, 0))
+            else:
+                new_data.append(item)
+        rgba.putdata(new_data)
+    return rgba
+
+
+def render_beauty_illustration(
     shot_num: int,
     product_img: Image.Image,
     width: int = 560,
     height: int = 340
 ) -> Image.Image:
-    """
-    Renders a dedicated, cinematic storyboard illustration for each of the 9 narrative story scenes.
-    Every panel depicts a completely different scene, angle, and action.
-    """
+    """Renders dedicated cinematic sketches for Skincare / Beauty commercials."""
     canvas = Image.new("RGBA", (width, height), (15, 18, 28, 255))
     draw = ImageDraw.Draw(canvas)
-
     cx, cy = width // 2, height // 2
 
-    # -------------------------------------------------------------
-    # PANEL 1: THE PROBLEM (ตื่นนอน ส่องกระจกเจอปัญหา)
-    # Cool moody dim blue, mirror frame, stressed character silhouette
-    # -------------------------------------------------------------
+    # PANEL 1: THE PROBLEM
     if shot_num == 1:
-        # Dim bedroom / bathroom background
         for y in range(height):
             ratio = y / height
             draw.line([(0, y), (width, y)], fill=(int(10 + ratio*15), int(14 + ratio*18), int(30 + ratio*25), 255))
-        # Mirror outline
         draw.ellipse([cx - 150, 30, cx + 150, height - 30], outline=(80, 100, 140, 160), width=3)
         draw.ellipse([cx - 142, 38, cx + 142, height - 38], fill=(20, 26, 45, 200))
-        # Character silhouette in mirror looking tired
         head_x, head_y = cx, cy - 20
-        draw.ellipse([head_x - 45, head_y - 50, head_x + 45, head_y + 40], fill=(45, 55, 80)) # Head
-        draw.polygon([(head_x - 80, height - 20), (head_x + 80, height - 20), (head_x + 50, head_y + 35), (head_x - 50, head_y + 35)], fill=(35, 45, 70)) # Shoulders
-        # Stress / dullness markers
-        draw.arc([head_x - 25, head_y - 5, head_x + 25, head_y + 25], start=180, end=360, fill=(180, 80, 80), width=3) # Frown
+        draw.ellipse([head_x - 45, head_y - 50, head_x + 45, head_y + 40], fill=(45, 55, 80))
+        draw.polygon([(head_x - 80, height - 20), (head_x + 80, height - 20), (head_x + 50, head_y + 35), (head_x - 50, head_y + 35)], fill=(35, 45, 70))
+        draw.arc([head_x - 25, head_y - 5, head_x + 25, head_y + 25], start=180, end=360, fill=(180, 80, 80), width=3)
         draw.text((head_x + 60, head_y - 40), "หมองคล้ำ ไม่สดใส", font=video_engine.get_thai_font(18, bold=True), fill=(255, 110, 110))
         draw.text((head_x - 145, head_y - 20), "อ่อนล้า ขาดพลัง", font=video_engine.get_thai_font(18, bold=True), fill=(160, 185, 220))
 
-    # -------------------------------------------------------------
-    # PANEL 2: THE FRUSTRATION (ลองมาหลายวิธี โต๊ะเครื่องแป้งรก กังวลใจ)
-    # Dressing table, cosmetics clutter, hands holding face
-    # -------------------------------------------------------------
+    # PANEL 2: THE FRUSTRATION
     elif shot_num == 2:
         for y in range(height):
             ratio = y / height
             draw.line([(0, y), (width, y)], fill=(int(25 + ratio*10), int(15 + ratio*10), int(22 + ratio*15), 255))
-        # Dressing table surface
         draw.rectangle([0, height - 90, width, height], fill=(35, 30, 40))
         draw.line([(0, height - 90), (width, height - 90)], fill=(70, 60, 80), width=2)
-        # Cluttered cosmetics silhouettes on table
-        draw.rectangle([60, height - 150, 95, height - 90], fill=(60, 50, 70)) # Bottle 1
-        draw.rectangle([110, height - 130, 140, height - 90], fill=(50, 45, 65)) # Bottle 2
-        draw.ellipse([155, height - 120, 195, height - 90], fill=(70, 55, 75)) # Jar
-        # Frustrated character profile clutching cheek
-        draw.ellipse([cx + 30, 60, cx + 130, 160], fill=(55, 45, 65)) # Head
+        draw.rectangle([60, height - 150, 95, height - 90], fill=(60, 50, 70))
+        draw.rectangle([110, height - 130, 140, height - 90], fill=(50, 45, 65))
+        draw.ellipse([155, height - 120, 195, height - 90], fill=(70, 55, 75))
+        draw.ellipse([cx + 30, 60, cx + 130, 160], fill=(55, 45, 65))
         draw.polygon([(cx + 10, height - 20), (cx + 170, height - 20), (cx + 140, 155), (cx + 40, 155)], fill=(45, 35, 55))
-        # Hand on forehead/cheek frustration tags
         draw.text((cx - 145, 80), "ลองแล้วไม่เห็นผล", font=video_engine.get_thai_font(20, bold=True), fill=(255, 130, 130))
         draw.text((cx - 125, 120), "ขาดความมั่นใจ", font=video_engine.get_thai_font(18, bold=False), fill=(220, 160, 160))
 
-    # -------------------------------------------------------------
-    # PANEL 3: THE DISCOVERY (พบกับตัวช่วย สินค้าวางเด่นพร้อมแสงประกาย)
-    # Warm golden hopeful beam shining onto the actual product
-    # -------------------------------------------------------------
+    # PANEL 3: THE DISCOVERY
     elif shot_num == 3:
         for y in range(height):
             ratio = y / height
             draw.line([(0, y), (width, y)], fill=(int(18 + ratio*18), int(18 + ratio*18), int(12 + ratio*8), 255))
-        # Warm golden light beam from top-left
         beam = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         b_draw = ImageDraw.Draw(beam)
         b_draw.polygon([(cx - 80, 0), (cx + 80, 0), (cx + 220, height), (cx - 220, height)], fill=(255, 215, 100, 35))
         beam = beam.filter(ImageFilter.GaussianBlur(15))
         canvas = Image.alpha_composite(canvas, beam)
         draw = ImageDraw.Draw(canvas)
-
-        # Marble pedestal
         draw.ellipse([cx - 130, height - 90, cx + 130, height - 35], fill=(220, 225, 235), outline=(212, 175, 55), width=2)
-        # Paste real product
-        prod = product_img.copy().convert("RGBA")
-        prod.thumbnail((260, 260), Image.Resampling.LANCZOS)
+        prod = make_clean_transparent(product_img)
+        prod.thumbnail((240, 240), Image.Resampling.LANCZOS)
         pw, ph = prod.size
         canvas.paste(prod, (cx - pw//2, height - 75 - ph), prod)
         draw.text((30, 40), "ค้นพบตัวช่วยใหม่!", font=video_engine.get_thai_font(22, bold=True), fill=(255, 220, 100))
 
-    # -------------------------------------------------------------
-    # PANEL 4: TEXTURE & MACRO (เปิดฝา หยดเซรั่ม ละอองน้ำแตกตัว)
-    # Macro dropper, glistening droplets, golden ripples
-    # -------------------------------------------------------------
+    # PANEL 4: TEXTURE & MACRO
     elif shot_num == 4:
-        # Dark luxury macro background
         draw.rectangle([0, 0, width, height], fill=(12, 16, 26))
-        # Dropper pipette illustration
         draw.polygon([(cx - 16, 20), (cx + 16, 20), (cx + 12, 150), (cx - 12, 150)], fill=(220, 225, 235))
         draw.polygon([(cx - 12, 150), (cx + 12, 150), (cx + 5, 200), (cx - 5, 200)], fill=(200, 210, 230))
-        # Glass reflection
         draw.line([(cx - 6, 25), (cx - 3, 190)], fill=(255, 255, 255, 180), width=2)
-        # Glistening active droplet hanging & falling
-        draw.ellipse([cx - 16, 205, cx + 16, 245], fill=(255, 215, 100, 240)) # Main droplet
-        draw.ellipse([cx - 8, 260, cx + 8, 280], fill=(255, 225, 130, 220)) # Falling drop
-        # Ripple circles on surface below
+        draw.ellipse([cx - 16, 205, cx + 16, 245], fill=(255, 215, 100, 240))
+        draw.ellipse([cx - 8, 260, cx + 8, 280], fill=(255, 225, 130, 220))
         draw.ellipse([cx - 120, height - 60, cx + 120, height - 10], outline=(255, 215, 100, 140), width=2)
         draw.ellipse([cx - 70, height - 48, cx + 70, height - 22], outline=(255, 235, 150, 180), width=2)
-        # Feature text tag
         draw.text((30, 40), "ซูมเนื้อสัมผัสเข้มข้น", font=video_engine.get_thai_font(20, bold=True), fill=(0, 240, 255))
         draw.text((30, 75), "ซึมไว ไม่เหนอะหนะ", font=video_engine.get_thai_font(18, bold=False), fill=(200, 220, 240))
 
-    # -------------------------------------------------------------
-    # PANEL 5: APPLICATION (ทาลงบนผิวหน้า สัมผัสนุ่มนวล สบายผิว)
-    # Gentle hand applying serum to glowing cheek, soothing motion arcs
-    # -------------------------------------------------------------
+    # PANEL 5: APPLICATION
     elif shot_num == 5:
         draw.rectangle([0, 0, width, height], fill=(18, 22, 34))
-        # Soft warm glow on face
         draw.ellipse([cx - 80, 50, cx + 160, 290], fill=(255, 210, 180, 50))
-        # Cheek profile contour
         draw.arc([cx - 70, 70, cx + 130, 270], start=90, end=270, fill=(245, 200, 180), width=3)
-        # Hand / Fingers gently patting
         hand_col = (255, 220, 200)
         draw.polygon([(cx - 140, height - 20), (cx - 70, 170), (cx - 30, 160), (cx - 100, height - 20)], fill=hand_col)
-        draw.ellipse([cx - 35, 150, cx - 15, 175], fill=hand_col) # Finger tip touching cheek
-        # Soothing motion wave arcs
+        draw.ellipse([cx - 35, 150, cx - 15, 175], fill=hand_col)
         draw.arc([cx - 5, 135, cx + 45, 185], start=0, end=180, fill=(0, 240, 255), width=2)
         draw.arc([cx + 10, 120, cx + 70, 180], start=0, end=180, fill=(255, 220, 100), width=2)
-        # Text
         draw.text((30, 35), "ทาบำรุงอย่างนุ่มนวล", font=video_engine.get_thai_font(20, bold=True), fill=(255, 220, 180))
         draw.text((30, 70), "ผ่อนคลาย สบายผิว", font=video_engine.get_thai_font(18, bold=False), fill=(180, 220, 240))
 
-    # -------------------------------------------------------------
-    # PANEL 6: INSTANT GLOW (ผิวฉ่ำวาว อิ่มน้ำทันที ออร่าเปล่งประกาย)
-    # Radiant smiling face in mirror, sparkle stars, hydration aura
-    # -------------------------------------------------------------
+    # PANEL 6: INSTANT GLOW
     elif shot_num == 6:
         draw.rectangle([0, 0, width, height], fill=(20, 24, 40))
-        # Aura halo
         halo = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         h_draw = ImageDraw.Draw(halo)
         h_draw.ellipse([cx - 140, 40, cx + 140, height - 40], fill=(255, 220, 100, 45))
@@ -186,69 +163,46 @@ def render_scene_illustration(
         halo = halo.filter(ImageFilter.GaussianBlur(25))
         canvas = Image.alpha_composite(canvas, halo)
         draw = ImageDraw.Draw(canvas)
-        # Happy glowing character silhouette
-        draw.ellipse([cx - 45, 60, cx + 45, 160], fill=(255, 220, 200)) # Glowing head
+        draw.ellipse([cx - 45, 60, cx + 45, 160], fill=(255, 220, 200))
         draw.polygon([(cx - 85, height - 20), (cx + 85, height - 20), (cx + 50, 155), (cx - 50, 155)], fill=(60, 75, 110))
-        # Smiling lips
         draw.arc([cx - 20, 115, cx + 20, 145], start=0, end=180, fill=(240, 80, 100), width=3)
-        # Sparkle star bursts
         for sx, sy in [(cx - 90, 80), (cx + 100, 70), (cx - 70, 190), (cx + 90, 180)]:
             draw.line([(sx - 12, sy), (sx + 12, sy)], fill=(255, 255, 255), width=2)
             draw.line([(sx, sy - 12), (sx, sy + 12)], fill=(255, 255, 255), width=2)
-        # Text
         draw.text((30, 35), "ผิวฉ่ำโกลว์ อิ่มน้ำทันตา", font=video_engine.get_thai_font(20, bold=True), fill=(255, 220, 100))
 
-    # -------------------------------------------------------------
-    # PANEL 7: CONFIDENT LIFESTYLE (ก้าวออกจากบ้านอย่างมั่นใจ ท้าแดด)
-    # Bright sunny daylight, outdoor city skyline, confident walking figure
-    # -------------------------------------------------------------
+    # PANEL 7: CONFIDENT LIFESTYLE
     elif shot_num == 7:
-        # Sunny daylight sky gradient
         for y in range(height):
             ratio = y / height
             draw.line([(0, y), (width, y)], fill=(int(40 + ratio*60), int(120 + ratio*80), int(210 + ratio*30), 255))
-        # Sun flare top-right
         draw.ellipse([width - 130, -30, width + 50, 150], fill=(255, 245, 180, 220))
         draw.ellipse([width - 160, -60, width + 80, 180], outline=(255, 230, 120, 120), width=4)
-        # City skyline silhouette
         draw.rectangle([40, height - 160, 110, height], fill=(30, 45, 75))
         draw.rectangle([130, height - 190, 200, height], fill=(25, 38, 65))
         draw.rectangle([220, height - 140, 300, height], fill=(35, 50, 80))
-        # Confident character walking in stylish silhouette
-        draw.ellipse([cx + 60, height - 230, cx + 110, height - 170], fill=(255, 255, 255)) # Head
-        draw.polygon([(cx + 40, height - 10), (cx + 130, height - 10), (cx + 105, height - 170), (cx + 65, height - 170)], fill=(240, 245, 255)) # Body
-        # Text
+        draw.ellipse([cx + 60, height - 230, cx + 110, height - 170], fill=(255, 255, 255))
+        draw.polygon([(cx + 40, height - 10), (cx + 130, height - 10), (cx + 105, height - 170), (cx + 65, height - 170)], fill=(240, 245, 255))
         draw.text((30, 35), "สวยมั่นใจ ท้าแดดทุกวัน", font=video_engine.get_thai_font(20, bold=True), fill=(255, 255, 255))
         draw.text((30, 70), "พร้อมลุยทุกกิจกรรม", font=video_engine.get_thai_font(18, bold=False), fill=(220, 240, 255))
 
-    # -------------------------------------------------------------
-    # PANEL 8: SOCIAL ADMIRATION (คนรอบข้างทัก ชื่นชมในความเปลี่ยนแปลง)
-    # Friends gathered in cafe/work, thumbs up, praise speech bubbles
-    # -------------------------------------------------------------
+    # PANEL 8: SOCIAL ADMIRATION
     elif shot_num == 8:
         draw.rectangle([0, 0, width, height], fill=(28, 22, 38))
-        # Multiple friendly character silhouettes
-        draw.ellipse([80, 110, 140, 180], fill=(60, 50, 80)) # Friend 1
+        draw.ellipse([80, 110, 140, 180], fill=(60, 50, 80))
         draw.polygon([(50, height - 20), (170, height - 20), (130, 175), (90, 175)], fill=(50, 40, 70))
-        draw.ellipse([width - 140, 110, width - 80, 180], fill=(60, 50, 80)) # Friend 2
+        draw.ellipse([width - 140, 110, width - 80, 180], fill=(60, 50, 80))
         draw.polygon([(width - 170, height - 20), (width - 50, height - 20), (width - 90, 175), (width - 130, 175)], fill=(50, 40, 70))
-        # Main smiling hero in center
         draw.ellipse([cx - 40, 80, cx + 40, 170], fill=(255, 220, 200))
         draw.polygon([(cx - 75, height - 20), (cx + 75, height - 20), (cx + 45, 165), (cx - 45, 165)], fill=(230, 100, 140))
-        # Compliment speech bubble
         bubble_x, bubble_y = cx - 110, 20
         draw.rounded_rectangle([bubble_x, bubble_y, bubble_x + 220, bubble_y + 45], radius=12, fill=(255, 255, 255))
         draw.polygon([(cx, bubble_y + 45), (cx - 10, bubble_y + 45), (cx - 5, bubble_y + 55)], fill=(255, 255, 255))
         draw.text((bubble_x + 18, bubble_y + 10), "'หน้าใสขึ้นมาก ไปทำอะไรมา?!'", font=video_engine.get_thai_font(16, bold=True), fill=(30, 30, 50))
-        # Praise note
         draw.text((50, 60), "เสียงชื่นชมจากเพื่อนๆ", font=video_engine.get_thai_font(18, bold=True), fill=(255, 215, 100))
 
-    # -------------------------------------------------------------
-    # PANEL 9: HERO PACKSHOT & CTA (ถือสินค้าคู่รอยยิ้ม ปิดการขาย สั่งซื้อด่วน)
-    # Spotlight, hero product presentation, 5-star rating, CTA order badge
-    # -------------------------------------------------------------
+    # PANEL 9: HERO PACKSHOT & CTA
     else:
-        # Grand stage spotlight
         draw.rectangle([0, 0, width, height], fill=(15, 20, 35))
         center_glow = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         cg_draw = ImageDraw.Draw(center_glow)
@@ -257,27 +211,21 @@ def render_scene_illustration(
         center_glow = center_glow.filter(ImageFilter.GaussianBlur(30))
         canvas = Image.alpha_composite(canvas, center_glow)
         draw = ImageDraw.Draw(canvas)
-
-        # Real Product Packshot
-        prod = product_img.copy().convert("RGBA")
-        prod.thumbnail((260, 260), Image.Resampling.LANCZOS)
+        prod = make_clean_transparent(product_img)
+        prod.thumbnail((240, 240), Image.Resampling.LANCZOS)
         pw, ph = prod.size
         canvas.paste(prod, (cx - pw//2, cy - ph//2 - 20), prod)
-
-        # 5-Star Rating badge (vector stars)
         star_start_x = cx - 65
         for s_i in range(5):
             draw_star(draw, star_start_x + s_i * 18, 30, r_outer=7, r_inner=3, fill=(255, 215, 100))
         draw.text((star_start_x + 95, 20), "4.9 / 5.0", font=video_engine.get_thai_font(18, bold=True), fill=(255, 215, 100))
-
-        # Order Now CTA Button
         btn_w, btn_h = 240, 45
         btn_x = (width - btn_w) // 2
         btn_y = height - 65
         draw.rounded_rectangle([btn_x, btn_y, btn_x + btn_w, btn_y + btn_h], radius=22, fill=(46, 204, 113))
         draw.text((btn_x + 40, btn_y + 9), "สั่งซื้อเลย ตอนนี้!", font=video_engine.get_thai_font(20, bold=True), fill=(255, 255, 255))
 
-    # Viewfinder border brackets on all panels
+    # Viewfinder border brackets
     c_len, c_col = 16, (255, 255, 255, 100)
     draw.line([(12, 12), (12 + c_len, 12)], fill=c_col, width=2)
     draw.line([(12, 12), (12, 12 + c_len)], fill=c_col, width=2)
@@ -289,6 +237,196 @@ def render_scene_illustration(
     draw.line([(width - 12, height - 12), (width - 12, height - 12 - c_len)], fill=c_col, width=2)
 
     return canvas.convert("RGB")
+
+
+def render_tech_illustration(
+    shot_num: int,
+    product_img: Image.Image,
+    width: int = 560,
+    height: int = 340
+) -> Image.Image:
+    """Renders dedicated cinematic sketches for Tech / Smartphone / Gadget commercials."""
+    canvas = Image.new("RGBA", (width, height), (15, 18, 28, 255))
+    draw = ImageDraw.Draw(canvas)
+    cx, cy = width // 2, height // 2
+
+    # SHOT 1: THE PROBLEM (เครื่องค้าง แบตหมด ช้าไม่ทันใจ)
+    if shot_num == 1:
+        for y in range(height):
+            ratio = y / height
+            draw.line([(0, y), (width, y)], fill=(int(12 + ratio*15), int(15 + ratio*18), int(28 + ratio*20), 255))
+        draw.rectangle([0, height - 90, width, height], fill=(22, 26, 38))
+        draw.line([(0, height - 90), (width, height - 90)], fill=(50, 60, 80), width=2)
+        pw, ph = 70, 130
+        px, py = cx - 110, height - 125
+        draw.rounded_rectangle([px, py, px + pw, py + ph], radius=10, fill=(30, 35, 50), outline=(70, 80, 110), width=2)
+        draw.rectangle([px + 15, py + 35, px + 55, py + 52], outline=(230, 70, 70), width=2)
+        draw.rectangle([px + 18, py + 38, px + 28, py + 49], fill=(230, 70, 70))
+        draw.arc([px + 23, py + 70, px + 47, py + 94], start=45, end=300, fill=(240, 180, 50), width=3)
+        hx, hy = cx + 80, cy - 30
+        draw.ellipse([hx - 40, hy - 45, hx + 40, hy + 40], fill=(45, 55, 75))
+        draw.polygon([(hx - 70, height - 10), (hx + 70, height - 10), (hx + 45, hy + 35), (hx - 45, hy + 35)], fill=(35, 45, 65))
+        draw.text((hx - 40, hy - 80), "เครื่องค้าง แบตหมดไว", font=video_engine.get_thai_font(19, bold=True), fill=(255, 100, 100))
+        draw.text((hx - 30, hy - 55), "โหลดช้า ไม่ทันใจ", font=video_engine.get_thai_font(17, bold=False), fill=(200, 170, 170))
+
+    # SHOT 2: FRUSTRATION (สายชาร์จพันกันวุ่นวาย เสียโอกาส)
+    elif shot_num == 2:
+        for y in range(height):
+            ratio = y / height
+            draw.line([(0, y), (width, y)], fill=(int(22 + ratio*10), int(16 + ratio*10), int(26 + ratio*15), 255))
+        draw.rectangle([0, height - 85, width, height], fill=(30, 25, 38))
+        draw.line([(0, height - 85), (width, height - 85)], fill=(65, 55, 75), width=2)
+        draw.arc([50, height - 120, 170, height - 50], start=0, end=360, fill=(180, 70, 70), width=3)
+        draw.arc([110, height - 140, 230, height - 60], start=0, end=360, fill=(100, 120, 160), width=3)
+        draw.arc([160, height - 110, 280, height - 40], start=0, end=360, fill=(200, 150, 80), width=3)
+        draw.rounded_rectangle([70, height - 110, 140, height - 70], radius=6, fill=(50, 45, 60), outline=(80, 70, 95), width=2)
+        draw.ellipse([cx + 60, 60, cx + 150, 155], fill=(55, 45, 65))
+        draw.polygon([(cx + 30, height - 10), (cx + 180, height - 10), (cx + 150, 150), (cx + 60, 150)], fill=(45, 35, 55))
+        draw.text((cx - 150, 80), "สายชาร์จพันกันวุ่นวาย", font=video_engine.get_thai_font(20, bold=True), fill=(255, 120, 120))
+        draw.text((cx - 130, 120), "พลาดโอกาสสำคัญ", font=video_engine.get_thai_font(18, bold=False), fill=(220, 160, 160))
+
+    # SHOT 3: DISCOVERY (พบกับเทคโนโลยีใหม่ ลำแสงสปอตไลต์)
+    elif shot_num == 3:
+        for y in range(height):
+            ratio = y / height
+            draw.line([(0, y), (width, y)], fill=(int(10 + ratio*20), int(18 + ratio*25), int(35 + ratio*25), 255))
+        beam = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        b_draw = ImageDraw.Draw(beam)
+        b_draw.polygon([(cx - 70, 0), (cx + 70, 0), (cx + 200, height), (cx - 200, height)], fill=(0, 240, 255, 35))
+        beam = beam.filter(ImageFilter.GaussianBlur(15))
+        canvas = Image.alpha_composite(canvas, beam)
+        draw = ImageDraw.Draw(canvas)
+        draw.ellipse([cx - 120, height - 85, cx + 120, height - 35], fill=(30, 45, 70), outline=(0, 220, 255), width=2)
+        prod = make_clean_transparent(product_img)
+        prod.thumbnail((220, 220), Image.Resampling.LANCZOS)
+        pw, ph = prod.size
+        canvas.paste(prod, (cx - pw//2, height - 65 - ph), prod)
+        draw.text((30, 35), "ค้นพบนวัตกรรมใหม่!", font=video_engine.get_thai_font(22, bold=True), fill=(0, 240, 255))
+
+    # SHOT 4: MACRO TECH (ซูมชุดเลนส์และชิปเซ็ต)
+    elif shot_num == 4:
+        draw.rectangle([0, 0, width, height], fill=(12, 14, 24))
+        draw.rounded_rectangle([cx - 120, 30, cx + 120, height - 40], radius=35, fill=(25, 30, 45), outline=(60, 75, 110), width=3)
+        for lx, ly in [(cx - 50, 95), (cx + 50, 95), (cx, 210)]:
+            draw.ellipse([lx - 42, ly - 42, lx + 42, ly + 42], fill=(15, 18, 28), outline=(0, 210, 255), width=3)
+            draw.ellipse([lx - 28, ly - 28, lx + 28, ly + 28], fill=(20, 25, 40), outline=(120, 160, 220), width=2)
+            draw.ellipse([lx - 12, ly - 12, lx + 12, ly + 12], fill=(10, 15, 25))
+            draw.ellipse([lx - 18, ly - 22, lx - 8, ly - 12], fill=(255, 255, 255, 220))
+        draw.line([(30, 120), (cx - 130, 120)], fill=(0, 210, 255, 160), width=2)
+        draw.line([(width - 30, 120), (cx + 130, 120)], fill=(0, 210, 255, 160), width=2)
+        draw.text((30, 35), "ชุดเลนส์ระดับโปร 4K", font=video_engine.get_thai_font(20, bold=True), fill=(0, 240, 255))
+        draw.text((30, 70), "ชิปเร็วแรง คมชัดทุกมิติ", font=video_engine.get_thai_font(18, bold=False), fill=(180, 220, 255))
+
+    # SHOT 5: HANDS-ON USAGE (ทัชลื่นติดนิ้ว ตอบสนองฉับไว)
+    elif shot_num == 5:
+        draw.rectangle([0, 0, width, height], fill=(16, 20, 32))
+        sw, sh = 130, 240
+        sx, sy = cx - sw//2, (height - sh)//2 + 10
+        draw.rounded_rectangle([sx, sy, sx + sw, sy + sh], radius=18, fill=(25, 30, 48), outline=(80, 100, 140), width=3)
+        draw.rounded_rectangle([sx + 8, sy + 10, sx + sw - 8, sy + sh - 10], radius=12, fill=(20, 50, 90))
+        draw.arc([sx - 20, sy + 40, sx + sw + 40, sy + 180], start=210, end=350, fill=(0, 255, 220), width=4)
+        draw.ellipse([sx + sw - 20, sy + 90, sx + sw + 25, sy + 140], fill=(245, 200, 180))
+        draw.text((30, 35), "ทัชลื่นติดนิ้ว ไร้ดีเลย์", font=video_engine.get_thai_font(20, bold=True), fill=(0, 240, 255))
+        draw.text((30, 70), "ตอบสนองฉับไวทุกสัมผัส", font=video_engine.get_thai_font(18, bold=False), fill=(200, 230, 255))
+
+    # SHOT 6: POWER & TRANSFORMATION (เร็วแรงเต็มสปีด ทรงพลัง)
+    elif shot_num == 6:
+        draw.rectangle([0, 0, width, height], fill=(18, 22, 38))
+        for angle_deg in range(0, 360, 30):
+            rad = math.radians(angle_deg)
+            x2 = cx + int(160 * math.cos(rad))
+            y2 = cy + int(130 * math.sin(rad))
+            draw.line([(cx, cy), (x2, y2)], fill=(0, 240, 255, 80), width=2)
+        draw.ellipse([cx - 45, 50, cx + 45, 145], fill=(245, 200, 180))
+        draw.polygon([(cx - 80, height - 10), (cx + 80, height - 10), (cx + 45, 140), (cx - 45, 140)], fill=(50, 65, 100))
+        draw.arc([cx - 20, 105, cx + 20, 132], start=0, end=180, fill=(230, 80, 100), width=3)
+        draw.rounded_rectangle([cx - 20, 160, cx + 20, 225], radius=6, fill=(0, 240, 255), outline=(255, 255, 255), width=2)
+        draw.text((30, 35), "เร็วแรงเต็มสปีด ทรงพลัง", font=video_engine.get_thai_font(20, bold=True), fill=(0, 240, 255))
+
+    # SHOT 7: MOBILE LIFESTYLE (พร้อมลุยทุกไลฟ์สไตล์ ถ่าย 4K)
+    elif shot_num == 7:
+        for y in range(height):
+            ratio = y / height
+            draw.line([(0, y), (width, y)], fill=(int(30 + ratio*50), int(100 + ratio*80), int(190 + ratio*40), 255))
+        draw.rectangle([40, height - 160, 110, height], fill=(30, 45, 75))
+        draw.rectangle([130, height - 190, 200, height], fill=(25, 38, 65))
+        draw.rectangle([220, height - 140, 300, height], fill=(35, 50, 80))
+        draw.ellipse([cx + 60, height - 230, cx + 110, height - 170], fill=(255, 255, 255))
+        draw.polygon([(cx + 40, height - 10), (cx + 130, height - 10), (cx + 105, height - 170), (cx + 65, height - 170)], fill=(240, 245, 255))
+        draw.line([(cx - 100, 70), (cx - 70, 70)], fill=(0, 255, 220), width=3)
+        draw.line([(cx - 100, 70), (cx - 100, 100)], fill=(0, 255, 220), width=3)
+        draw.line([(cx + 10, 70), (cx - 20, 70)], fill=(0, 255, 220), width=3)
+        draw.line([(cx + 10, 70), (cx + 10, 100)], fill=(0, 255, 220), width=3)
+        draw.text((30, 35), "พร้อมลุยทุกไลฟ์สไตล์", font=video_engine.get_thai_font(20, bold=True), fill=(255, 255, 255))
+        draw.text((30, 70), "ถ่าย 4K คมชัดระดับโปร", font=video_engine.get_thai_font(18, bold=False), fill=(210, 235, 255))
+
+    # SHOT 8: SOCIAL ADMIRATION (เพื่อนๆ ทึ่งในความแรง)
+    elif shot_num == 8:
+        draw.rectangle([0, 0, width, height], fill=(24, 22, 36))
+        draw.ellipse([80, 110, 140, 180], fill=(60, 50, 80))
+        draw.polygon([(50, height - 20), (170, height - 20), (130, 175), (90, 175)], fill=(50, 40, 70))
+        draw.ellipse([width - 140, 110, width - 80, 180], fill=(60, 50, 80))
+        draw.polygon([(width - 170, height - 20), (width - 50, height - 20), (width - 90, 175), (width - 130, 175)], fill=(50, 40, 70))
+        draw.ellipse([cx - 40, 80, cx + 40, 170], fill=(245, 200, 180))
+        draw.polygon([(cx - 75, height - 20), (cx + 75, height - 20), (cx + 45, 165), (cx - 45, 165)], fill=(50, 100, 160))
+        bubble_x, bubble_y = cx - 110, 20
+        draw.rounded_rectangle([bubble_x, bubble_y, bubble_x + 230, bubble_y + 45], radius=12, fill=(255, 255, 255))
+        draw.polygon([(cx, bubble_y + 45), (cx - 10, bubble_y + 45), (cx - 5, bubble_y + 55)], fill=(255, 255, 255))
+        draw.text((bubble_x + 18, bubble_y + 10), "'รูปสวย คมชัด สเปกโหดมาก!'", font=video_engine.get_thai_font(16, bold=True), fill=(30, 30, 50))
+        draw.text((50, 60), "เพื่อนๆ ทึ่งในความแรง", font=video_engine.get_thai_font(18, bold=True), fill=(0, 240, 255))
+
+    # SHOT 9: HERO PACKSHOT & CTA
+    else:
+        draw.rectangle([0, 0, width, height], fill=(15, 20, 35))
+        center_glow = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        cg_draw = ImageDraw.Draw(center_glow)
+        cg_draw.ellipse([cx - 180, cy - 130, cx + 180, cy + 130], fill=(0, 220, 255, 45))
+        center_glow = center_glow.filter(ImageFilter.GaussianBlur(30))
+        canvas = Image.alpha_composite(canvas, center_glow)
+        draw = ImageDraw.Draw(canvas)
+        prod = make_clean_transparent(product_img)
+        prod.thumbnail((240, 240), Image.Resampling.LANCZOS)
+        pw, ph = prod.size
+        canvas.paste(prod, (cx - pw//2, cy - ph//2 - 20), prod)
+        star_start_x = cx - 65
+        for s_i in range(5):
+            draw_star(draw, star_start_x + s_i * 18, 30, r_outer=7, r_inner=3, fill=(255, 215, 100))
+        draw.text((star_start_x + 95, 20), "4.9 / 5.0", font=video_engine.get_thai_font(18, bold=True), fill=(255, 215, 100))
+        btn_w, btn_h = 240, 45
+        btn_x = (width - btn_w) // 2
+        btn_y = height - 65
+        draw.rounded_rectangle([btn_x, btn_y, btn_x + btn_w, btn_y + btn_h], radius=22, fill=(46, 204, 113))
+        draw.text((btn_x + 40, btn_y + 9), "สั่งซื้อเลย ตอนนี้!", font=video_engine.get_thai_font(20, bold=True), fill=(255, 255, 255))
+
+    # Viewfinder border brackets
+    c_len, c_col = 16, (255, 255, 255, 100)
+    draw.line([(12, 12), (12 + c_len, 12)], fill=c_col, width=2)
+    draw.line([(12, 12), (12, 12 + c_len)], fill=c_col, width=2)
+    draw.line([(width - 12, 12), (width - 12 - c_len, 12)], fill=c_col, width=2)
+    draw.line([(width - 12, 12), (width - 12, 12 + c_len)], fill=c_col, width=2)
+    draw.line([(12, height - 12), (12 + c_len, height - 12)], fill=c_col, width=2)
+    draw.line([(12, height - 12), (12, height - 12 - c_len)], fill=c_col, width=2)
+    draw.line([(width - 12, height - 12), (width - 12 - c_len, height - 12)], fill=c_col, width=2)
+    draw.line([(width - 12, height - 12), (width - 12, height - 12 - c_len)], fill=c_col, width=2)
+
+    return canvas.convert("RGB")
+
+
+def render_scene_illustration(
+    shot_num: int,
+    product_img: Image.Image,
+    width: int = 560,
+    height: int = 340,
+    category: str = "beauty"
+) -> Image.Image:
+    """
+    Renders a dedicated, cinematic storyboard illustration for each of the 9 narrative story scenes.
+    Dispatches to category-tailored illustrations (tech vs beauty).
+    """
+    if category == "tech":
+        return render_tech_illustration(shot_num, product_img, width, height)
+    return render_beauty_illustration(shot_num, product_img, width, height)
+
 
 
 def render_9grid_storyboard_image(
@@ -398,7 +536,8 @@ def render_9grid_storyboard_image(
             # Scene Visual Illustration (Distinct for every single panel!)
             vis_w = panel_w - 36
             vis_h = 325
-            scene_img = render_scene_illustration(shot_num, product_img, width=vis_w, height=vis_h)
+            category = storyboard_data.get("category", "beauty")
+            scene_img = render_scene_illustration(shot_num, product_img, width=vis_w, height=vis_h, category=category)
             board.paste(scene_img, (px + 18, py + 58))
 
             draw.rounded_rectangle(
