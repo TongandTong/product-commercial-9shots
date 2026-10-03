@@ -92,102 +92,120 @@ SHOTS_6_TEMPLATES = [
 SHOTS_9_TEMPLATES = [
     {
         "shot_number": 1,
-        "title": "Hook / เปิดตัวดึงดูดสายตา",
-        "role": "Dramatic Hook",
-        "environment": "สตูดิโอแสงสปอตไลต์จัดจ้าน ดึงดูดสายตา",
-        "camera_motion": "dynamic_push_in",
-        "image_prompt": "Cinematic vertical 9:16 advertising shot of {product_name}, intense studio spotlight with volumetric god rays, dark backdrop, water droplets shimmer, 8k.",
-        "motion_prompt": "Fast dynamic push-in toward {product_name}, dramatic light beam sweep, airborne dust motes glistening.",
-        "sample_script": "เบื่อไหมกับปัญหาเดิมๆ? พบกับ {product_name}",
-        "headline": "สัมผัสความต่างที่เหนือกว่า"
+        "title": "ACT 1: ปัญหาในชีวิตจริง (The Problem)",
+        "role": "ตื่นนอน เผชิญปัญหา",
+        "scene_type": "INT. BATHROOM MIRROR - MORNING",
+        "environment": "ส่องกระจกตอนเช้า แสงสลัว ใบหน้าหมองคล้ำ ขาดความมั่นใจ",
+        "camera_motion": "slow_push_in",
+        "image_prompt": "Cinematic visual storytelling, tired person looking into bathroom mirror in dim morning light, touching face with concern, moody cinematic atmosphere, shallow depth of field, 8k.",
+        "i2v_motion_prompt": "Slow emotional camera push-in toward mirror reflection, character sighing gently, soft natural morning shadows.",
+        "sample_script": "ตื่นเช้ามาทีไร ส่องกระจกแล้วหมดความมั่นใจทุกที...",
+        "headline": "ผิวหมองคล้ำ ขาดความสดใส",
+        "action_note": "ตัวละครยืนหน้ากระจก ลูบใบหน้าด้วยความกังวลใจ"
     },
     {
         "shot_number": 2,
-        "title": "Reveal / เปิดตัวสินค้าบนแท่น",
-        "role": "Product Reveal",
-        "environment": "แท่นหินอ่อนพรีเมียม แสงนุ่มนวล",
-        "camera_motion": "slow_pan_orbit",
-        "image_prompt": "Beauty reveal shot of {product_name} on a circular marble pedestal, soft ambient reflections, clean luxury aesthetic, 9:16 vertical 8k.",
-        "motion_prompt": "Smooth 360 orbit around {product_name} on marble pedestal, soft sheen reflections.",
-        "sample_script": "ดีไซน์พรีเมียม ตอบโจทย์ทุกไลฟ์สไตล์",
-        "headline": "เปิดตัวนวัตกรรมล่าสุด"
+        "title": "ACT 2: ความกังวลใจ (Frustration)",
+        "role": "ลองมาเยอะแต่ไม่ได้ผล",
+        "scene_type": "INT. BEDROOM VANITY - WORRY",
+        "environment": "โต๊ะเครื่องแป้งรก มีครีมและผลิตภัณฑ์หลายชิ้นวางเกลื่อนแต่ไม่ได้ผล",
+        "camera_motion": "handheld_close_up",
+        "image_prompt": "Dramatic scene of a frustrated character sitting at a cluttered dressing table filled with unused skincare bottles, holding head in hand with disappointment, soft moody lighting, 8k.",
+        "i2v_motion_prompt": "Subtle handheld camera drift capturing clutter of bottles then focusing on character troubled expression.",
+        "sample_script": "ลองมาสารพัดวิธี เสียทั้งเงินทั้งเวลา แต่ผลลัพธ์ก็ยังเหมือนเดิม...",
+        "headline": "ลองมาสารพัด ก็ยังไม่ตอบโจทย์",
+        "action_note": "นั่งกุมขมับหน้าโต๊ะเครื่องแป้ง ถอนหายใจกับครีมเก่าๆ"
     },
     {
         "shot_number": 3,
-        "title": "Feature 1 / จุดเด่นหลักที่ 1",
-        "role": "Key Selling Point #1",
-        "environment": "โคลสอัปเน้นส่วนผสมและเทคโนโลยี",
-        "camera_motion": "macro_glide",
-        "image_prompt": "Macro close-up vertical 9:16 of {product_name}, highlighting key active ingredients, droplet ripples, crisp packaging details, 8k.",
-        "motion_prompt": "Macro camera glide across {product_name}, sparkling droplets sliding gently.",
-        "sample_script": "โดดเด่นด้วย {highlight}",
-        "headline": "คุณภาพระดับท็อป"
+        "title": "ACT 3: ค้นพบทางออก (The Discovery)",
+        "role": "จุดเปลี่ยนพบสินค้าตัวช่วย",
+        "scene_type": "INT. HOPEFUL DISCOVERY - WARMTH",
+        "environment": "แสงอบอุ่นส่องลงมาที่ตัวสินค้าอย่างมีความหวัง ตัวละครมองด้วยความตื่นเต้น",
+        "camera_motion": "dramatic_reveal",
+        "image_prompt": "Warm hopeful golden sunbeam breaking into room and illuminating {product_name} on clean pedestal, character hand reaching toward it with curiosity, cinematic rim lighting, 8k.",
+        "i2v_motion_prompt": "Dynamic downward camera sweep revealing {product_name} bathed in radiant golden morning beam.",
+        "sample_script": "จนได้มาเจอกับ {product_name} ตัวช่วยใหม่ที่เปลี่ยนทุกอย่าง!",
+        "headline": "จนได้มาเจอกับ {product_name}",
+        "action_note": "แสงอบอุ่นส่องต้องขวดสินค้า หยิบขึ้นมาดูด้วยความหวัง"
     },
     {
         "shot_number": 4,
-        "title": "Problem-Solving / สาธิตการแก้ปัญหา",
-        "role": "Solution Demonstration",
-        "environment": "ฉากเปรียบเทียบหรือสาธิตประสิทธิภาพ",
-        "camera_motion": "zoom_out",
-        "image_prompt": "Demonstration vertical 9:16 visual of {product_name} in action, showcasing effortless performance, bright energetic lighting, 8k.",
-        "motion_prompt": "Smooth zoom out revealing {product_name} solving daily challenges effortlessly.",
-        "sample_script": "แก้ปัญหาได้จริง เห็นผลลัพธ์ชัดเจน",
-        "headline": "ตอบโจทย์ตรงจุด"
+        "title": "ACT 4: เจาะลึกเนื้อสัมผัส (Texture & Macro)",
+        "role": "นวัตกรรมและสารสกัดเข้มข้น",
+        "scene_type": "MACRO TEXTURE & DROPLET",
+        "environment": "ซูมมาโครหัวดรอปเปอร์ หยดเซรั่มประกายทอง ละอองน้ำแตกตัว สารสกัดเข้มข้น",
+        "camera_motion": "macro_glide",
+        "image_prompt": "Extreme macro close-up of {product_name} dropper releasing a pristine glowing active droplet, micro ripples, glistening serum texture, luxury lighting, 8k.",
+        "i2v_motion_prompt": "Slow-motion macro camera track following droplet falling and creating smooth ripple waves, golden sparkles.",
+        "sample_script": "สัมผัสแรกคือเนื้อบางเบา ซึมลึก อุดมด้วย {highlight}",
+        "headline": "เนื้อสัมผัสเข้มข้น ซึมลึกบางเบา",
+        "action_note": "ดรอปเปอร์หยดเนื้อเซรั่มลงมา ละอองประกายทองแตกตัว"
     },
     {
         "shot_number": 5,
-        "title": "Feature 2 & Detail / ดีเทลและเนื้อสัมผัส",
-        "role": "Key Selling Point #2",
-        "environment": "ซูมเจาะเนื้อสัมผัสและความประณีต",
-        "camera_motion": "macro_glide",
-        "image_prompt": "Detailed texture and craftsmanship shot vertical 9:16 of {product_name}, luxury aesthetic reflections, silky fluid textures, 8k.",
-        "motion_prompt": "Slow camera drift across fine texture and label of {product_name}, premium shimmer.",
-        "sample_script": "ใส่ใจในทุกรายละเอียด ซึมไว สบายผิว",
-        "headline": "ประณีตทุกสัมผัส"
+        "title": "ACT 5: สัมผัสการใช้จริง (Gentle Application)",
+        "role": "ปรนนิบัติบำรุงอย่างนุ่มนวล",
+        "scene_type": "CLOSE-UP FACE APPLICATION",
+        "environment": "ปลายนิ้วแตะเนื้อสัมผัสเกลี่ยลงบนพวงแก้ม แสงธรรมชาตินุ่มนวล ผ่อนคลาย",
+        "camera_motion": "soft_focus_pan",
+        "image_prompt": "Intimate close-up of gentle fingers patting and smoothing hydrating serum onto glowing cheek, peaceful relaxed expression, soft clean skincare aesthetic, 8k.",
+        "i2v_motion_prompt": "Smooth gliding camera pan across cheek as serum absorbs instantaneously, soothing skin motion.",
+        "sample_script": "เกลี่ยง่าย ซึมไว ไม่เหนอะหนะ รู้สึกสบายผิวทันทีที่ทา",
+        "headline": "ทาบำรุงนุ่มนวล สบายผิวทันที",
+        "action_note": "ปลายนิ้วเกลี่ยเนื้อเซรั่มลงบนแก้ม รอยยิ้มผ่อนคลายสบายใจ"
     },
     {
         "shot_number": 6,
-        "title": "In-Hand Usage / คนถือใช้งานจริง",
-        "role": "Human Interaction",
-        "environment": "คนถือสินค้าใช้งานจริง แสงธรรมชาติ",
-        "camera_motion": "natural_handheld",
-        "image_prompt": "Close-up vertical 9:16 photo of a stylish person holding and using {product_name}, warm natural morning light, soft bokeh, 8k.",
-        "motion_prompt": "Natural hand movement presenting {product_name} to camera, smooth and authentic.",
-        "sample_script": "ใช้งานง่าย พกพาสะดวก ตอบโจทย์ทุกวัน",
-        "headline": "ใช้งานง่ายในมือคุณ"
+        "title": "ACT 6: ผลลัพธ์เปลี่ยนไปทันตา (Transformation)",
+        "role": "ผิวฉ่ำวาว อิ่มน้ำ ออร่าพุ่ง",
+        "scene_type": "INT. RADIANT MIRROR GLOW",
+        "environment": "ส่องกระจกอีกครั้ง ผิวหน้าเปล่งประกายออร่า ชุ่มชื้น ฉ่ำโกลว์ รอยยิ้มกว้างสดใส",
+        "camera_motion": "radiant_orbit",
+        "image_prompt": "Glowing radiant portrait of happy person looking into mirror with luminous glass skin, sparkle reflections, bright genuine smile, beauty commercial glow, 8k.",
+        "i2v_motion_prompt": "Soft camera orbit around radiant face, natural skin glow catching light highlights, character smiling happily.",
+        "sample_script": "ผิวดูฉ่ำวาว อิ่มน้ำ ออร่าพุ่งทันที สัมผัสได้ถึงความเปลี่ยนแปลง!",
+        "headline": "ผิวฉ่ำโกลว์ ออร่าพุ่งทันที",
+        "action_note": "ส่องกระจกด้วยรอยยิ้มสดใส ผิวหน้าเปล่งประกายออร่า"
     },
     {
         "shot_number": 7,
-        "title": "Lifestyle Scene / สภาพแวดล้อมใช้งานจริง",
-        "role": "Real-World Environment",
-        "environment": "ห้องนั่งเล่นหรือโต๊ะเครื่องแป้งสไตล์โมเดิร์น",
-        "camera_motion": "slow_reveal_tilt",
-        "image_prompt": "Aesthetic real-world setting vertical 9:16 with {product_name} in an elegant modern sunlit room, stylish interior, 8k.",
-        "motion_prompt": "Slow upward tilt showing {product_name} in a sunlit room, gentle breeze moving curtains.",
-        "sample_script": "เพิ่มความมั่นใจในทุกช่วงเวลาของวัน",
-        "headline": "ลงตัวกับทุกวันของคุณ"
+        "title": "ACT 7: ก้าวสู่วันใหม่อย่างมั่นใจ (Confident Lifestyle)",
+        "role": "ชีวิตประจำวันมั่นใจเต็มร้อย",
+        "scene_type": "EXT. SUNLIT CITY STREET",
+        "environment": "เดินก้าวออกจากตึกท่ามกลางแสงแดดสดใส เมืองโมเดิร์น ยิ้มแย้มมั่นใจท้าแดด",
+        "camera_motion": "tracking_walk",
+        "image_prompt": "Dynamic lifestyle shot of a confident, stylish person walking on a sunny modern city street, warm sun rays, joyful expression, cinematic depth, 8k.",
+        "i2v_motion_prompt": "Low-angle smooth tracking shot moving backward as character walks forward confidently, hair swaying in breeze.",
+        "sample_script": "พร้อมออกไปลุยทุกกิจกรรมอย่างมั่นใจ ไม่ว่าจะแดดแรงแค่ไหนก็เอาอยู่",
+        "headline": "มั่นใจเต็มร้อย ท้าแดดท้าลม",
+        "action_note": "เดินก้าวออกมาอย่างสง่างาม ท้าทายแสงแดด มั่นใจเต็มร้อย"
     },
     {
         "shot_number": 8,
-        "title": "Special Offer / โปรโมชั่นสุดคุ้ม",
-        "role": "Special Promo & Trust",
-        "environment": "ฉากโปรโมชั่นพร้อมกล่องของขวัญและป้ายพิเศษ",
-        "camera_motion": "dynamic_push_in",
-        "image_prompt": "Exciting commercial spotlight vertical 9:16 on {product_name}, special seasonal gift set arrangement, vibrant celebration ambiance, 8k.",
-        "motion_prompt": "Dynamic push-in with gentle sparkle lighting reflecting off {product_name}.",
-        "sample_script": "รับข้อเสนอพิเศษเฉพาะช่วงเปิดตัวเท่านั้น",
-        "headline": "โปรสุดคุ้มจำกัดเวลา"
+        "title": "ACT 8: ทุกคนทักชม (Social Admiration)",
+        "role": "เพื่อนและคนรอบข้างทักชม",
+        "scene_type": "INT. CAFE SOCIAL MEETING",
+        "environment": "ร้านกาแฟชิคๆ เพื่อนๆ หันมามองด้วยความทึ่งและเอ่ยปากชมในความเปลี่ยนแปลง",
+        "camera_motion": "over_shoulder_reaction",
+        "image_prompt": "Cozy aesthetic cafe table with friends admiring the main character radiant skin, thumbs up and smiling compliments, bright sociable atmosphere, 8k.",
+        "i2v_motion_prompt": "Gentle zoom in on group table as friend leans in smiling with admiration, joyous natural reactions.",
+        "sample_script": "จนเพื่อนๆ ในออฟฟิศต้องทักว่า 'ไปทำอะไรมา ทำไมหน้าใสขนาดนี้!'",
+        "headline": "ทุกคนทักเป็นเสียงเดียวกัน",
+        "action_note": "เพื่อนๆ ในคาเฟ่หันมาทักชมด้วยความทึ่ง ยกนิ้วโป้งให้"
     },
     {
         "shot_number": 9,
-        "title": "Call to Action / สั่งซื้อตอนนี้",
-        "role": "Hero Outro & CTA",
-        "environment": "ฉากปิดการขายทางการ โลโก้และสินค้าเด่นชัด",
+        "title": "ACT 9: คืนความมั่นใจ สั่งซื้อเลย (Call to Action)",
+        "role": "ถือสินค้าคู่รอยยิ้ม ปิดการขาย",
+        "scene_type": "STUDIO HERO PACKSHOT & CTA",
+        "environment": "สปอตไลต์ฉลองความสำเร็จ ตัวละครถือสินค้าคู่รอยยิ้ม รีวิว 5 ดาว พร้อมปุ่มสั่งซื้อด่วน",
         "camera_motion": "hero_pull_back",
-        "image_prompt": "Final iconic product shot vertical 9:16 with radiant glowing background, official branding aesthetic, 8k.",
-        "motion_prompt": "Confident pull-back camera motion centering {product_name} with light flares.",
-        "sample_script": "คลิกลิงก์สั่งซื้อด่วน สินค้ามีจำนวนจำกัด!",
-        "headline": "สั่งซื้อเลยที่นี่"
+        "image_prompt": "Iconic commercial final hero shot, character smiling proudly holding {product_name}, 5-star rating graphic badge, premium promotional aesthetic, 8k broadcast quality.",
+        "i2v_motion_prompt": "Confident pull-back camera motion centering {product_name} with vibrant celebratory light flares.",
+        "sample_script": "คืนความมั่นใจให้ตัวคุณ สั่งซื้อ {product_name} วันนี้ พร้อมโปรโมชั่นสุดพิเศษ!",
+        "headline": "สั่งซื้อเลย! เพื่อผิวสวยที่คุณคู่ควร",
+        "action_note": "ถือสินค้าคู่รอยยิ้มแห่งความสำเร็จ พร้อมป้ายสั่งซื้อด่วน"
     }
 ]
 
@@ -206,39 +224,43 @@ def generate_fallback_storyboard(
     style: str,
     mood_tone: str,
     total_duration: int,
-    num_shots: int = 6
+    num_shots: int = 9
 ) -> Dict[str, Any]:
-    """Generate high-quality fallback storyboard with distinct scene environments."""
-    templates = SHOTS_6_TEMPLATES if num_shots == 6 else SHOTS_9_TEMPLATES
+    """Generate high-quality fallback storyboard with 9 distinct narrative story scenes."""
+    templates = SHOTS_9_TEMPLATES if num_shots == 9 else SHOTS_6_TEMPLATES
     durations = calculate_durations(len(templates), total_duration)
     clean_hl = highlights.strip() if highlights.strip() else "นวัตกรรมพรีเมียม ตอบโจทย์ทุกไลฟ์สไตล์"
+    clean_pname = product_name.strip() if product_name.strip() else "ผลิตภัณฑ์ของคุณ"
 
     shots = []
     for i, tpl in enumerate(templates):
-        img_p = tpl["image_prompt"].replace("{product_name}", product_name).replace("{highlight}", clean_hl)
-        mot_p = tpl["motion_prompt"].replace("{product_name}", product_name)
-        script = tpl["sample_script"].replace("{product_name}", product_name).replace("{highlight}", clean_hl)
+        img_p = tpl["image_prompt"].replace("{product_name}", clean_pname).replace("{highlight}", clean_hl)
+        mot_p = tpl.get("motion_prompt", tpl.get("i2v_motion_prompt", "")).replace("{product_name}", clean_pname)
+        script = tpl.get("sample_script", "").replace("{product_name}", clean_pname).replace("{highlight}", clean_hl)
+        headline = tpl.get("headline", "").replace("{product_name}", clean_pname)
 
         shots.append({
             "shot_number": i + 1,
             "title": tpl["title"],
             "role": tpl["role"],
-            "environment": tpl["environment"],
+            "scene_type": tpl.get("scene_type", "INT. SCENE"),
+            "environment": tpl.get("environment", ""),
+            "action_note": tpl.get("action_note", tpl.get("environment", "")),
             "duration_seconds": durations[i],
             "camera_motion": tpl["camera_motion"],
             "image_prompt": f"{img_p}, style: {style}, mood: {mood_tone}",
-            "i2v_motion_prompt": f"{mot_p}, smooth vertical 9:16 camera motion, cinematic 60fps",
+            "i2v_motion_prompt": f"{mot_p}, smooth vertical camera motion, cinematic 60fps",
             "thai_voiceover": script,
-            "headline": tpl["headline"]
+            "headline": headline
         })
 
     return {
-        "product_name": product_name,
+        "product_name": clean_pname,
         "style": style,
         "mood_tone": mood_tone,
         "total_duration": total_duration,
         "num_shots": len(templates),
-        "concept_summary": f"คลิปโฆษณา {len(templates)} ช็อตเคลื่อนไหวจริง (I2V) สำหรับ '{product_name}' ในสไตล์ {style} โทน {mood_tone}",
+        "concept_summary": f"ภาพยนตร์โฆษณาเล่าเรื่อง 9 ตอน (9-Act Storyline) สำหรับ '{clean_pname}' ถ่ายทอดการแก้ปัญหาและสร้างความมั่นใจ",
         "shots": shots
     }
 
@@ -250,66 +272,71 @@ def generate_storyboard_with_gemini(
     highlights: str,
     style: str,
     mood_tone: str,
-    total_duration: int,
-    num_shots: int = 6,
+    total_duration: int = 15,
+    num_shots: int = 9,
     api_key: str = ""
 ) -> Dict[str, Any]:
-    """Call Google Gemini API to analyze product and design distinct scene environments for I2V."""
+    """Call Google Gemini API to analyze product and craft an authentic 9-Act Commercial Storyline."""
+    clean_pname = product_name.strip() if product_name and product_name.strip() else "ผลิตภัณฑ์ของคุณ"
+    clean_hl = highlights.strip() if highlights and highlights.strip() else "ตอบโจทย์ตรงจุด เห็นผลจริง คุณภาพพรีเมียม"
+
     if not HAS_GENAI or not api_key:
-        return generate_fallback_storyboard(product_name, highlights, style, mood_tone, total_duration, num_shots)
+        return generate_fallback_storyboard(clean_pname, clean_hl, style, mood_tone, total_duration, num_shots)
 
     client = genai.Client(api_key=api_key)
     durations = calculate_durations(num_shots, total_duration)
 
     system_instruction = (
-        "คุณคือ Commercial Video Director และ AI Video Engineer ผู้เชี่ยวชาญด้าน Image-to-Video (I2V) โฆษณาสินค้าแนวตั้ง 9:16. "
-        f"หน้าที่ของคุณคือ วิเคราะห์รูปภาพสินค้า และออกแบบ Storyboard {num_shots} ช็อต โดยห้ามใช้ฉากซ้ำกันเด็ดขาด! "
-        "ทุกช็อตต้องมีมุมมองและสภาพแวดล้อมที่แตกต่างกันอย่างสิ้นเชิง เช่น ซูมกล้อง, แท่นโชว์สตูดิโอ, ซูมเจาะเนื้อสัมผัสมาโคร, "
-        "คนถือใช้งานจริงในมือ, และสภาพแวดล้อมใช้งานจริงในชีวิตประจำวัน ตอบกลับเป็นโครงสร้าง JSON เท่านั้น"
+        "คุณคือ Commercial Film Director และ Storyboard Master มืออาชีพ "
+        "หน้าที่ของคุณคือ วิเคราะห์รูปภาพสินค้าที่ผู้ใช้อัปโหลดมาอย่างละเอียด แล้วเขียนบทภาพยนตร์โฆษณาแบบเล่าเรื่องราว (Narrative Storytelling) 9 ตอนจบในรูปเดียว "
+        "ตามสูตร 9-Act Commercial Storyline: "
+        "1. Problem (ตัวละครส่องกระจก/เผชิญปัญหาในชีวิตประจำวัน) "
+        "2. Frustration (ความกังวลใจ ลองมาหลายวิธีแต่ไม่เห็นผล ข้าวของเก่าเต็มโต๊ะ) "
+        "3. Discovery (จุดเปลี่ยน ค้นพบสินค้าตัวช่วยใหม่ แสงสว่างส่องลงมา) "
+        "4. Texture & Tech (เจาะลึกเนื้อสัมผัส นวัตกรรม สารสกัดเข้มข้น) "
+        "5. Application (ทา/ใช้งานจริงอย่างนุ่มนวล สัมผัสสบาย) "
+        "6. Instant Transformation (ผลลัพธ์เปลี่ยนไปทันตา ผิวฉ่ำโกลว์/สดชื่น รอยยิ้มสดใส) "
+        "7. Confident Lifestyle (ก้าวสู่วันใหม่อย่างมั่นใจ ท้าแดดท้าลม ใช้ชีวิตเต็มที่) "
+        "8. Social Admiration (เพื่อนและคนรอบข้างทักชมในความเปลี่ยนแปลง) "
+        "9. Hero Packshot & CTA (ถือสินค้าคู่รอยยิ้ม รีวิว 5 ดาว สั่งซื้อโปรโมชั่นด่วน) "
+        "ห้ามนำรูปสินค้ามาวางตั้งโชว์ซ้ำๆ 9 ช่องเด็ดขาด! ทุกช่องต้องเป็นฉากเรื่องราวชีวิตและอารมณ์ของตัวละครที่สมจริง "
+        "ตอบกลับเป็น JSON เท่านั้น"
     )
 
     prompt = f"""
-วิเคราะห์รูปภาพสินค้านี้และสร้าง Storyboard โฆษณา {num_shots} ช็อต สำหรับแปลงเป็นวิดีโอเคลื่อนไหวจริง (Image-to-Video: I2V 9:16):
+วิเคราะห์รูปภาพสินค้านี้ และสร้าง Storyboard โฆษณาแบบเล่าเรื่องราว 9 ช่อง (9-Act Commercial Narrative Storyboard):
 
 ข้อมูลสินค้า:
-- ชื่อสินค้า: {product_name or 'สินค้าพรีเมียม'}
-- จุดเด่นที่ต้องการเน้น: {highlights or 'คุณภาพดี ดีไซน์ทันสมัย คุ้มค่า'}
-- สไตล์วิดีโอ: {style}
-- Mood & Tone: {mood_tone or 'พรีเมียม น่าดึงดูดใจ'}
-- ความยาววิดีโอรวม: {total_duration} วินาที (ช็อตละประมาณ {durations[0]} วินาที)
+- ชื่อสินค้า: {clean_pname}
+- จุดเด่น: {clean_hl}
+- สไตล์ภาพ: {style}
+- Mood & Tone: {mood_tone or 'พรีเมียม สดใส มั่นใจ'}
 
-เงื่อนไขสำคัญมาก:
-1. ทุกช็อตต้องมี 'environment' (สภาพแวดล้อม) และ 'image_prompt' สำหรับเจนภาพใหม่ที่ต่างกันอย่างสิ้นเชิง:
-   - ช็อต 1: แสงสตูดิโอจัดจ้าน เปิดตัวดึงดูดสายตา (Dramatic Studio Hook)
-   - ช็อต 2: แท่นวางสินค้าหินอ่อน/กระจกพรีเมียม (Pedestal Reveal)
-   - ช็อต 3: โคลสอัปแบบมาโคร เจาะลึกเนื้อสัมผัส ละอองน้ำ หรือดีเทล (Macro Details)
-   - ช็อต 4: คนถือใช้งานจริงในมือ แสงธรรมชาติ (Human In-Hand Interaction)
-   - ช็อต 5: สภาพแวดล้อมใช้งานจริงในชีวิตประจำวัน เช่น ห้องนั่งเล่น ห้องน้ำ หรือโต๊ะทำงาน (Real-World Setting)
-   - ช็อตสุดท้าย: ปิดการขาย ช็อต Hero Shot พร้อมแสงเปล่งประกาย (Hero CTA Outro)
-2. เขียน 'image_prompt' ภาษาอังกฤษอย่างละเอียด สำหรับใช้กับ AI Image Generator (Flux / Midjourney) สัดส่วนแนวตั้ง 9:16 โดยอ้างอิงดีไซน์ของสินค้าชิ้นนี้
-3. เขียน 'i2v_motion_prompt' ภาษาอังกฤษ สำหรับสั่งให้ Image-to-Video AI (Kling / Luma / Runway) ขยับมุมกล้องและสภาพแวดล้อมให้สมจริง (3-4 วินาที)
-4. เขียน 'thai_voiceover' บทพากย์ภาษาไทยที่กระชับและจบพอดีในเวลาของช็อต
+กรุณาเขียนบทเรื่องราวทั้ง 9 ช่อง:
+1. ACT 1 • THE PROBLEM (ปัญหา): ตัวละครส่องกระจก/เผชิญปัญหา ผิวหมองคล้ำหรือขาดความสดใส
+2. ACT 2 • FRUSTRATION (กังวลใจ): กุมขมับหน้าโต๊ะเครื่องแป้ง มีของเก่าๆ วางเต็มแต่ไม่ได้ผล
+3. ACT 3 • DISCOVERY (พบตัวช่วย): ลำแสงแห่งความหวังส่องลงมาที่ {clean_pname} ตัวละครหยิบขึ้นมาดู
+4. ACT 4 • TEXTURE & TECH (สัมผัสแรก): ซูมเจาะเนื้อสัมผัสเข้มข้น หยดสารสกัด ละอองน้ำแตกตัว
+5. ACT 5 • APPLICATION (ใช้จริง): ตัวละครทาบำรุงลงบนผิวหน้านุ่มนวล ซึมไว สบายผิว
+6. ACT 6 • INSTANT GLOW (ผลลัพธ์): ส่องกระจกอีกครั้ง ผิวฉ่ำโกลว์ อิ่มน้ำ ออร่าพุ่ง ยิ้มมีความสุข
+7. ACT 7 • CONFIDENT LIFESTYLE (ชีวิตใหม่): เดินออกจากตึกท่ามกลางแสงแดดอย่างมั่นใจ
+8. ACT 8 • SOCIAL ADMIRATION (คนทักชม): เพื่อนๆ ในคาเฟ่/ที่ทำงานหันมาทักชมด้วยความทึ่ง
+9. ACT 9 • HERO PACKSHOT & CTA (ชวนสั่งซื้อ): ตัวละครถือสินค้าคู่รอยยิ้ม 5 ดาว และข้อความชวนสั่งซื้อด่วน
 
-รูปแบบ JSON ที่ต้องส่งกลับ:
+ตอบกลับเป็นโครงสร้าง JSON ดังนี้:
 {{
-  "product_name": "{product_name}",
-  "style": "{style}",
-  "mood_tone": "{mood_tone}",
-  "total_duration": {total_duration},
-  "num_shots": {num_shots},
-  "concept_summary": "สรุปแนวคิดโฆษณา 2 บรรทัด",
+  "product_name": "{clean_pname}",
+  "concept_summary": "สรุปแก่นของเรื่องราวโฆษณาชุดนี้ 1-2 ประโยค",
   "shots": [
     {{
       "shot_number": 1,
-      "title": "ชื่อช็อตภาษาไทย",
-      "role": "...",
-      "environment": "สภาพแวดล้อมของฉากนี้",
-      "duration_seconds": {durations[0]},
-      "camera_motion": "dynamic_push_in",
-      "image_prompt": "Cinematic vertical 9:16 product photography of {product_name}, ...",
-      "i2v_motion_prompt": "Smooth camera push-in, subtle light rays shimmering, 4k 60fps...",
-      "thai_voiceover": "บทพากย์ไทย...",
-      "headline": "ข้อความพาดหัวสั้นๆ"
+      "title": "ACT 1: ปัญหาในชีวิตจริง",
+      "headline": "ข้อความพาดหัวสั้นๆ กระชับ",
+      "scene_type": "INT. BATHROOM MIRROR - MORNING",
+      "camera_motion": "slow_push_in",
+      "action_note": "การกระทำและอารมณ์ของตัวละครในฉากนี้",
+      "thai_voiceover": "บทพูดหรือเสียงพากย์ภาษาไทยเล่าเรื่องช็อตนี้",
+      "duration_seconds": 2.0
     }}
   ]
 }}
@@ -322,10 +349,7 @@ def generate_storyboard_with_gemini(
 
     models_to_try = [
         "gemini-3.8-flash",
-        "gemini-3.7-flash",
-        "gemini-3.6-flash",
         "gemini-3.5-flash",
-        "gemini-flash-latest"
     ]
 
     for model_name in models_to_try:
@@ -349,9 +373,29 @@ def generate_storyboard_with_gemini(
             raw_text = raw_text.strip()
 
             data = json.loads(raw_text)
-            if "shots" in data and len(data["shots"]) >= num_shots:
+            raw_shots = data.get("shots") or data.get("storyboard") or data.get("scenes") or []
+            if isinstance(raw_shots, list) and len(raw_shots) >= 9:
+                normalized_shots = []
+                for i, s in enumerate(raw_shots[:9]):
+                    normalized_shots.append({
+                        "shot_number": i + 1,
+                        "title": s.get("title") or s.get("act_title") or f"ACT {i+1}",
+                        "role": s.get("role", ""),
+                        "headline": s.get("headline") or s.get("title") or f"ฉากที่ {i+1}",
+                        "scene_type": s.get("scene_type") or s.get("environment") or "INT. SCENE",
+                        "environment": s.get("environment") or s.get("scene_type") or "",
+                        "camera_motion": s.get("camera_motion", "slow_push_in"),
+                        "action_note": s.get("action_note") or s.get("character_action") or s.get("environment", ""),
+                        "thai_voiceover": s.get("thai_voiceover") or s.get("voiceover") or s.get("script") or "",
+                        "duration_seconds": s.get("duration_seconds", durations[i]),
+                        "image_prompt": s.get("image_prompt", "")
+                    })
+                data["shots"] = normalized_shots
+                if "product_name" not in data or not data["product_name"]:
+                    data["product_name"] = clean_pname
                 return data
-        except Exception as e:
+        except Exception:
             continue
 
-    return generate_fallback_storyboard(product_name, highlights, style, mood_tone, total_duration, num_shots)
+    return generate_fallback_storyboard(clean_pname, clean_hl, style, mood_tone, total_duration, num_shots)
+
